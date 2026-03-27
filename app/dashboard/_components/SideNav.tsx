@@ -1,7 +1,17 @@
-import { Home, History, Wallet, Settings } from "lucide-react";
-import Image from "next/image";
+"use client";
 
-const menuList = [
+import { LucideIcon, Home, History, Wallet, Settings } from "lucide-react";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
+
+interface MenuItem {
+  id: number;
+  name: string;
+  path: string;
+  icon: LucideIcon;
+}
+const menuList: MenuItem[] = [
   {
     id: 1,
     name: "Home",
@@ -29,6 +39,12 @@ const menuList = [
 ];
 
 const SideNav = () => {
+  const path = usePathname();
+
+  useEffect(() => {
+    console.log(path);
+  }, [path]);
+
   return (
     <div className="h-screen p-5 shadow-sm border">
       <div className="flex items-center justify-center">
@@ -39,7 +55,7 @@ const SideNav = () => {
         {menuList.map((menu) => (
           <div
             key={menu.id}
-            className="flex gap-2 mb-2 p-3 hover:bg-primary hover:text-white rounded-lg cursor-pointer items-center"
+            className={`flex gap-2 mb-2 p-3 hover:bg-primary hover:text-white rounded-lg cursor-pointer items-center ${path == menu.path && "bg-primary text-white"}`}
           >
             <menu.icon className="w-6 h-6" />
             <span className="text-base">{menu.name}</span>
